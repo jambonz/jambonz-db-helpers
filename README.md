@@ -14,25 +14,26 @@ const mySqlOpts = {
 };
 const logger = require('pino')();
 const {lookupAuthHook} = require('jambonz-db-helpers')(mySqlOpts, logger);
+// now invoke lookupAuthHook per below
+```
 
-lookupAuthHook('sip.example.com')
-  .then((obj) => {
-    if (!obj) console.log('no authentication callback found for sip.example.com');
-    else {
-      console.log(JSON.stringify(obj));
-      /*
-      {
-        url: 'http://auth.example.com:3000,
-        auth: {
-          username: 'foo',
-          password: 'bar'
-        }
-      }
-      */
-    }
-    )
-  .catch((err) => {
-    logger.error(err);
-  }
-});
+### Functions
+
+- [lookupAuthHook(sip_realm)](#lookupAuthHook) - retrieve the http authentication callback for a given sip domain 
+
+
+
+#### lookupAuthHook
+
+```
+try {
+  const obj = await lookupAuthHook('sip.example.com');
+  // {url: 'http://mycallback.com:3000, auth: {username: 'foo', password: 'bar}}
+  // where url is the callback url
+  // and auth is optional - if provided it means the url is protected using basic auth
+  // and the user/pass provided should be used
+}
+catch (err) {
+  // throws if no callback is found for that domain
+}
 ```
