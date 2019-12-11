@@ -24,16 +24,18 @@ const {lookupAuthHook} = require('jambonz-db-helpers')(mySqlOpts, logger);
 
 
 #### lookupAuthHook
+HTTP authentication callbacks are configured in the `accounts` table (`accounts.sip_realm`).  Furthermore if no exact match is found in the accounts table for a given sip realm, then a callback can be configured for the root domain in the `service_providers.root_domain` column.  
 
+This function is used by telephony apps that need to challenge incoming SIP requests, and therefore need to select the correct customer callback hook to delegate authentication to.
 ```
 try {
   const obj = await lookupAuthHook('sip.example.com');
   // {url: 'http://mycallback.com:3000, auth: {username: 'foo', password: 'bar}}
-  // where url is the callback url
-  // and auth is optional - if provided it means the url is protected using basic auth
-  // and the user/pass provided should be used
+  // where obj.url is the callback url
+  // and obj.auth is optional - if provided it means the url is protected using http basic auth
+  // and the user/pass provided should be used when invoking it.
 }
 catch (err) {
-  // throws if no callback is found for that domain
+  // throws 'unknown sip realm' if no callback is found for that domain
 }
 ```
