@@ -9,9 +9,9 @@ module.exports = function(mysqlConfig, logger) {
       if (err) return logger.error(err, `Error pinging mysql at ${JSON.stringify(mysqlConfig)}`);
     });
   });
-  const fnHook = require('./lib/lookup-auth-hook');
-  //console.log(`fnHook: ${typeof fnHook}`);
+
   return {
-    lookupAuthHook: fnHook.bind(null, pool, logger)
+    lookupAuthHook: require('./lib/lookup-auth-hook').bind(null, pool, logger),
+    lookupSipGatewayBySignalingAddress: require('./lib/lookup-sip-gateway-by-signaling-address').bind(null, pool, logger),
   };
 };

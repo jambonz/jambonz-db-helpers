@@ -19,11 +19,16 @@ const {lookupAuthHook} = require('jambonz-db-helpers')(mySqlOpts, logger);
 
 ### Functions
 
-- [lookupAuthHook(sip_realm)](#lookupAuthHook) - retrieve the http authentication callback for a given sip domain 
+- [lookupAuthHook](#lookupAuthHook) - retrieves the http authentication callback for a given sip realm/domain
+- [lookupSipGatewayBySignalingAddress](#lookupSipGatewayBySignalingAddress) - retrieves the sip gateway associated with a given ipv4 dot-decimal address and sip port
 
 
 
 #### lookupAuthHook
+`lookupAuthHook(sip_realm) returns Promise`
+
+Retrieves the http authentication callback for a given sip realm/domain.
+
 HTTP authentication callbacks are configured in the `accounts` table (`accounts.sip_realm`).  Furthermore if no exact match is found in the accounts table for a given sip realm, then a callback can be configured for the root domain in the `service_providers.root_domain` column.  
 
 This function is used by telephony apps that need to challenge incoming SIP requests, and therefore need to select the correct customer callback hook to delegate authentication to.
@@ -39,3 +44,15 @@ catch (err) {
   // throws 'unknown sip realm' if no callback is found for that domain
 }
 ```
+
+#### lookupSipGatewayBySignalingAddress
+`lookupSipGatewayBySignalingAddress(ipv4, port) returns Promise`
+
+Retrieves the sip gateway associated with a given ipv4 dot-decimal address and sip port.  The function returns a Promise that resolves to sip gateway object, or null if no gateway exists at that ip:port.
+```
+const gateway = await lookupSipGatewayBySignalingAddress('192.168.1.100', 5060);
+if (!gateway) logger.info('no gateway found at that address/port');
+```
+
+
+
