@@ -13,5 +13,6 @@ module.exports = function(mysqlConfig, logger) {
   return {
     lookupAuthHook: require('./lib/lookup-auth-hook').bind(null, pool, logger),
     lookupSipGatewayBySignalingAddress: require('./lib/lookup-sip-gateway-by-signaling-address').bind(null, pool, logger),
+    performLcr: require('./lib/perform-lcr').bind(null, pool, logger),
   };
 };

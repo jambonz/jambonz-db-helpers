@@ -18,10 +18,10 @@ test('creating schema', (t) => {
   });
 });
 
-test('creating auth token', (t) => {
+test('populating test database', (t) => {
   exec(`mysql -h localhost -u root ${pwd} -D jambones_test < ${__dirname}/db/populate-test-data.sql`, (err, stdout, stderr) => {
     if (err) return t.end(err);
-    t.pass('auth token successfully created');
+    t.pass('create test data');
     t.end();
   });
 });

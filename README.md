@@ -21,8 +21,7 @@ const {lookupAuthHook} = require('jambonz-db-helpers')(mySqlOpts, logger);
 
 - [lookupAuthHook](#lookupAuthHook) - retrieves the http authentication callback for a given sip realm/domain
 - [lookupSipGatewayBySignalingAddress](#lookupSipGatewayBySignalingAddress) - retrieves the sip gateway associated with a given ipv4 dot-decimal address and sip port
-
-
+- [performLcr](#performLcr) - given a called number returns a preference-ordered list of carriers to use to complete the call
 
 #### lookupAuthHook
 `lookupAuthHook(sip_realm) returns Promise`
@@ -50,6 +49,20 @@ Retrieves the sip gateway associated with a given ipv4 dot-decimal address and s
 ```
 const gateway = await lookupSipGatewayBySignalingAddress('192.168.1.100', 5060);
 if (!gateway) logger.info('no gateway found at that address/port');
+```
+
+#### performLcr
+`performLcr(calledNumber) returns Promise throws Error if no match is found`
+
+Selects an ordered list of carriers to use to complete a call to the specified number.  The function returns a Promise that resolves to an array of carriers.  
+
+The function throws Error('no configured lcr routes') if the database has no configured lcr routes, and Error('no matching lcr route') if none of the configured routes match.
+```
+try {
+  const carriers = await performLcr('44928300633');
+} catch (err) {
+  // handle no routes match or found at all here..
+}
 ```
 
 
