@@ -6,17 +6,20 @@ process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
 });
 
-test('sip gateways tests', async(t) => {
+test('lcr tests', async(t) => {
   const fn = require('..');
   const {performLcr} = fn(mysqlOpts);
   try {
-    let carriers = await performLcr('4412838238238');
-    //console.log(`carriers: ${JSON.stringify(carriers)}`);
-    t.ok(carriers[0].voip_carrier_sid === '287c1452-620d-4195-9f19-c9814ef90d78', 'retrieves carriers matching regex');
+    let gateways = await performLcr('4412838238238');
+    //console.log(`gateways: ${JSON.stringify(gateways)}`);
+    t.ok(gateways[0] === '3.3.3.3:5060', 'uses lcr when regex matches');
 
-    carriers = await performLcr('16172375089');
-    //console.log(`carriers: ${JSON.stringify(carriers)}`);
-    t.ok(carriers.length === 0, 'retrieves empty set when no carriers have been configured for a route');
+    try {
+      gateways = await performLcr('16172375089');
+      t.fail('should throw on LCR route with no configured gateways')
+    } catch (err) {
+      t.ok(err.message === 'no configured gateways for lcr route', 'throws when no configured gateways for lcr route');
+    }
 
     try {
       carriers = await performLcr('3383904905');
