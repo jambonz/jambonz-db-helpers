@@ -21,6 +21,8 @@ test('lookup auth hook tests', async(t) => {
       'looks up auth hook that has basic auth info');
     result = await lookupAuthHook('subdomain.none.org');
     t.ok(result === null, 'returns null if none found');
+
+    
     t.end();
   }
   catch (err) {

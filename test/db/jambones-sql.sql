@@ -48,7 +48,7 @@ PRIMARY KEY (`application_sid`)
 CREATE TABLE IF NOT EXISTS `call_routes`
 (
 `call_route_sid` CHAR(36) NOT NULL UNIQUE ,
-`order` INTEGER NOT NULL,
+`priority` INTEGER NOT NULL,
 `account_sid` CHAR(36) NOT NULL,
 `regex` VARCHAR(255) NOT NULL,
 `application_sid` CHAR(36) NOT NULL,
