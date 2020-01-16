@@ -42,6 +42,9 @@ CREATE TABLE IF NOT EXISTS `applications`
 `account_sid` CHAR(36) NOT NULL,
 `call_hook` VARCHAR(255) NOT NULL,
 `call_status_hook` VARCHAR(255) NOT NULL,
+`hook_basic_auth_user` VARCHAR(255),
+`hook_basic_auth_password` VARCHAR(255),
+`hook_http_method` enum('get','post'),
 PRIMARY KEY (`application_sid`)
 ) ENGINE=InnoDB COMMENT='A defined set of behaviors to be applied to phone calls with';
 
