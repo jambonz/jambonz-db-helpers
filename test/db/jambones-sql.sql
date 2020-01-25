@@ -45,6 +45,10 @@ CREATE TABLE IF NOT EXISTS `applications`
 `hook_basic_auth_user` VARCHAR(255),
 `hook_basic_auth_password` VARCHAR(255),
 `hook_http_method` enum('get','post'),
+`speech_synthesis_vendor` VARCHAR(64) NOT NULL DEFAULT 'google',
+`speech_synthesis_voice` VARCHAR(64) NOT NULL DEFAULT 'en-US-Wavenet-C',
+`speech_recognizer_vendor` VARCHAR(64) NOT NULL DEFAULT 'google',
+`speech_recognizer_language` VARCHAR(64) NOT NULL DEFAULT 'en-US',
 PRIMARY KEY (`application_sid`)
 ) ENGINE=InnoDB COMMENT='A defined set of behaviors to be applied to phone calls with';
 
