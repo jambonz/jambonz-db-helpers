@@ -12,12 +12,12 @@ test('lookup auth hook tests', async(t) => {
   try {
     let result = await lookupAuthHook('customerA.mycompany.com');
     //console.log(`result: ${JSON.stringify(result)}`);
-    t.ok(result.url === 'http://127.0.0.1:3000', 'looks up auth hook at account level');
+    t.ok(result.url === 'http://example.com/accountreg', 'looks up auth hook at account level');
     result = await lookupAuthHook('subdomain.example.com');
-    t.ok(result.url === 'http://127.0.0.1:4000', 'looks up auth hook at service provider level');
+    t.ok(result.url === 'http://example.com/spreg', 'looks up auth hook at service provider level');
     result = await lookupAuthHook('subdomain.drachtio.org');
     //console.log(`result: ${JSON.stringify(result)}`);
-    t.ok(result.url === 'http://127.0.0.1:4000' && result.auth.username === 'foo', 
+    t.ok(result.url === 'http://example.com/spreg' && result.username === 'foo', 
       'looks up auth hook that has basic auth info');
     result = await lookupAuthHook('subdomain.none.org');
     t.ok(result === null, 'returns null if none found');
