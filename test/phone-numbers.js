@@ -8,7 +8,7 @@ process.on('unhandledRejection', (reason, p) => {
 
 test('phone numbers tests', async(t) => {
   const fn = require('..');
-  const {lookupAppByPhoneNumber, lookupApplicationBySid} = fn(mysqlOpts);
+  const {lookupAppByPhoneNumber, lookupApplicationBySid, lookupAccountBySid} = fn(mysqlOpts);
   try {
     let app = await lookupAppByPhoneNumber('15083084809');
     //console.log(`app: ${JSON.stringify(app)}`);
@@ -17,6 +17,9 @@ test('phone numbers tests', async(t) => {
     app = await lookupApplicationBySid('3b43e39f-4346-4218-8434-a53130e8be49');
     t.ok(app !== null, 'retrieves application by sid');
     
+    let account = lookupAccountBySid('422affb5-4d1e-45e8-b2a4-2623f08b95ef');
+    t.ok(account !== null, 'retrieves account by sid');
+
     t.end();
   }
   catch (err) {
